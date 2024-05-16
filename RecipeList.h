@@ -1,4 +1,4 @@
-#include "IngredientList.h"
+#include "IngredientHashTable.h"
 
 struct Recipe {
     std::string name;
@@ -29,7 +29,6 @@ struct Recipe {
 
 };
 
-//use a hash table for this
 struct RecipeList {
     
 };

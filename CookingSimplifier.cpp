@@ -1,4 +1,4 @@
-#include "IngredientList.h"
+#include "IngredientHashTable.h"
 
 int main() {
 
