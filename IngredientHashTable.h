@@ -21,7 +21,7 @@ struct Ingredient {
 struct IngredientList
 {
     private:
-        //create a list file which is basically an unordered array
+        //create a list which is basically an unordered array
         Ingredient* ingredientList[CAPACITY];
         int size;
         int count;
@@ -30,7 +30,7 @@ struct IngredientList
         IngredientList();
         ~IngredientList();
         int HashFunction(std::string str);
-        int keyExists(std::string ingredientName);  //index if exists, -1 if not
+        bool keyExists(std::string ingredientName);  //index if exists, -1 if not
         bool insert(std::string name, double amount, std::string unit); //true if success, false if not
         bool remove(std::string name); //true if success, false if not
         bool edit(std::string name, double amount, std::string unit);
@@ -47,7 +47,6 @@ IngredientList::IngredientList() {
 }
 
 IngredientList::~IngredientList() {
-    // Clear all elements in the hash table and perform any necessary cleanup
     for (int i = 0; i < CAPACITY; ++i) {
         Ingredient* current = ingredientList[i];
         while (current != nullptr) {
@@ -55,42 +54,38 @@ IngredientList::~IngredientList() {
             current = current->next;
             delete toDelete;
         }
-        ingredientList[i] = nullptr; // Optional: Set the pointer to nullptr after deletion
     }
 }
 
-int IngredientList::HashFunction(std::string str)
-{
-    int i = 0;
-
-    for (int j = 0; str[j]; j++) {
-        i += str[j];
+int IngredientList::HashFunction(std::string str) {
+    int hash = 0;
+    for (size_t i = 0; i < str.length(); ++i) {
+        char c = str[i];
+        hash += c;
     }
-    std::cout << "Hash Value: " << i % CAPACITY << std::endl;
-    return i % CAPACITY;
+    return hash % CAPACITY;
 }
 
-int IngredientList::keyExists(std::string ingredientName) {
+bool IngredientList::keyExists(std::string ingredientName) {
     int hashValue = HashFunction(ingredientName);
     Ingredient* temp = ingredientList[hashValue];
-    int returnValue = -1;
 
     while (temp != nullptr) {
-        if (temp->name.compare(ingredientName) == 0) {
-            returnValue = hashValue;
+        if (temp->name == ingredientName) {
+            return true;
         }
         temp = temp->next;
     }
-    return returnValue;
+    return false;
 }
 
 bool IngredientList::insert(std::string name, double amount, std::string unit) {
     Ingredient* newIngredient = new Ingredient(name, amount, unit);
 
     int hashValue = HashFunction(name);
-    int exists = keyExists(name);
+    bool exists = keyExists(name);
 
-    if (exists != -1) {
+    if (exists == true) {
         // If the ingredient is already in the list
         return false;
     } else {
@@ -112,21 +107,22 @@ bool IngredientList::insert(std::string name, double amount, std::string unit) {
 }
 
 bool IngredientList::remove(std::string name) {
-    int exists = keyExists(name);
+    bool exists = keyExists(name);
+    int hashValue = HashFunction(name);
 
-    if (exists == -1) {
+    if (exists == false) {
         //if ingredient is not in the list
         return false;
     }
     else {
-        Ingredient* current = ingredientList[exists];
+        Ingredient* current = ingredientList[hashValue];
         Ingredient* prev = nullptr;
 
         while (current != nullptr) {
             if (current->name.compare(name) == 0) {
                 if (prev == nullptr) {
                     // Removing the first node
-                    ingredientList[exists] = current->next;
+                    ingredientList[hashValue] = current->next;
                     delete current;
                 } else {
                     // Removing a node in the middle or end of the list
@@ -142,14 +138,15 @@ bool IngredientList::remove(std::string name) {
 }
 
 bool IngredientList::edit(std::string name, double amount, std::string unit) {
-    int exists = keyExists(name);
+    bool exists = keyExists(name);
+    int hashValue = HashFunction(name);
 
-    if (exists == -1) {
+    if (exists == false) {
         //ingredient not in list
         return false;
     }
     else {
-        Ingredient* temp = ingredientList[exists];
+        Ingredient* temp = ingredientList[hashValue];
         while (temp != nullptr) {
             if (temp->name.compare(name) == 0) {
                 temp->amount = amount;
@@ -163,15 +160,18 @@ bool IngredientList::edit(std::string name, double amount, std::string unit) {
 }
 
 void IngredientList::printIngredientList() {
+    std::cout << std::left << std::setw(20) << "Ingredient Name"
+              << std::setw(15) << "Amount"
+              << std::setw(15) << "Unit" << std::endl;
+    std::cout << std::string(50, '-') << std::endl;
 
-    Ingredient* current;
-
-    for (int i = 0; i < size; i ++) {
-        current = ingredientList[i];
+    for (int i = 0; i < size; i++) {
+        Ingredient* current = ingredientList[i];
         while (current != nullptr) {
-            std::cout << std::setw(15) << current->name
-                << std::fixed << std::setprecision(2) << std::setw(12) << current->amount
-                << std::setw(15) << current->unit << std::endl;
+            std::cout << std::setw(20) << current->name
+                      << std::fixed << std::setprecision(2)
+                      << std::setw(15) << current->amount
+                      << std::setw(15) << current->unit << std::endl;
             current = current->next;
         }
     }
