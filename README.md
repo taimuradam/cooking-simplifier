@@ -30,7 +30,7 @@ The Cooking Simplifier program allows users to input the names of meals along wi
 ### Steps
 1. Clone the repository:
     ```sh
-    git clone https://github.com/your-username/cooking-simplifier.git
+    git clone https://github.com/taimuradam/cooking-simplifier.git
     cd cooking-simplifier
     ```
 
@@ -48,23 +48,26 @@ The Cooking Simplifier program allows users to input the names of meals along wi
 2. Follow the on-screen instructions to input meal names and ingredients, and perform other operations as needed.
 
 ## Directory Structure
+
 The project is organized as follows:
-cooking-simplifier/
-├── README.md
-├── Makefile
-├── source/
-│ ├── main.cpp
-│ ├── main.o (generated during build)
-│ ├── RecipeList.cpp
-│ ├── RecipeList.o(generated during build)
-│ ├── util.cpp
-│ ├── util.o (generated during build)
-│ ├── IngredientHashTable.cpp
-│ └── IngredientHashTable.o (generated during build)
-├── header/
-│ ├── RecipeList.h
-│ ├── util.h
-│ └── IngredientHashTable.h
+
+- cooking-simplifier/
+  - README.md
+  - LICENSE
+  - Makefile
+  - source/
+    - main.cpp
+    - main.o (generated during build)
+    - RecipeList.cpp
+    - RecipeList.o (generated during build)
+    - util.cpp
+    - util.o (generated during build)
+    - IngredientHashTable.cpp
+    - IngredientHashTable.o (generated during build)
+  - header/
+    - RecipeList.h
+    - util.h
+    - IngredientHashTable.h
 
 ## Contributing
 Contributions are welcome! Please fork the repository and submit a pull request with your changes. Ensure that your code adheres to the project’s coding standards and includes appropriate tests.
