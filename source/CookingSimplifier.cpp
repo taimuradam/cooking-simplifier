@@ -8,14 +8,13 @@
 
 int main() {
 
-    IngredientList* newList = new IngredientList();
+    IngredientList* ingredientList = new IngredientList();
     std::string ingredientName;
     double ingredientAmt;
     std::string ingredientUnit;
     int input = 0;
 
     do {
-        
         std::cout << "1: insert, 2: edit, 3: remove, 4: print, -1: quit" << std::endl;
         std::cin >> input;
         std::cin.ignore(20, '\n');
@@ -35,7 +34,7 @@ int main() {
             ingredientName = capitalize(ingredientName);
             ingredientUnit = toLower(ingredientUnit);
 
-            newList->insert(ingredientName, ingredientAmt, ingredientUnit);
+            ingredientList->insert(ingredientName, ingredientAmt, ingredientUnit);
         }
 
         else if (input == 2) {
@@ -45,7 +44,7 @@ int main() {
 
             ingredientName = capitalize(ingredientName);
 
-            if (newList->keyExists(ingredientName)) {
+            if (ingredientList->keyExists(ingredientName)) {
                 std::cout << "Enter the amount: ";
                 std::cin >> ingredientAmt;
                 std::cin.ignore(20, '\n');
@@ -54,8 +53,7 @@ int main() {
                 std::getline(std::cin, ingredientUnit);
 
                 ingredientUnit = toLower(ingredientUnit);
-
-                newList->edit(ingredientName, ingredientAmt, ingredientUnit);
+                ingredientList->edit(ingredientName, ingredientAmt, ingredientUnit);
             }
             else {
                 std::cout << "\nIngredient \"" << ingredientName << "\" doesn't exist in recipe.\n";
@@ -71,7 +69,7 @@ int main() {
 
             ingredientName = capitalize(ingredientName);
 
-            if (!newList->remove(ingredientName)) {
+            if (!ingredientList->remove(ingredientName)) {
                 std::cout << "\nIngredient \"" << ingredientName << "\" doesn't exist in recipe.\n";
                 std::cout << "Enter a valid ingredient name.\n\n";
             }
@@ -79,12 +77,12 @@ int main() {
 
         else if (input == 4) {
             //print
-            newList->printIngredientList();
+            ingredientList->printIngredientList();
         }
 
     } while(input != -1);
 
-    newList->printIngredientList();
-    newList->~IngredientList();
+    ingredientList->printIngredientList();
+    ingredientList->~IngredientList();
 
 }
