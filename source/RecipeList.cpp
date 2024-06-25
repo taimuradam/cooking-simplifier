@@ -1,52 +1,31 @@
 #include "IngredientHashTable.h"
+#include "RecipeList.h"
 #define CAPACITY 100
 
-struct Recipe {
-    std::string name;
-    struct IngredientList* ingredientList;
-    struct Recipe* next;
+//Recipe functions
+Recipe::Recipe(std::string name) {
+    this->name = name;
+    ingredientList = new IngredientList();
+    next = nullptr;
+}
 
-    Recipe(std::string name) {
-        this->name = name;
-        ingredientList = new IngredientList();
-        next = nullptr;
-    }
+Recipe::~Recipe() {
+    delete ingredientList;
+}
 
-    ~Recipe() {
-        delete ingredientList;
-    }
+void Recipe::addIngredient(std::string name, double amount, std::string unit) {
+    ingredientList->insert(name, amount, unit);
+}
 
-    void addIngredient(std::string name, double amount, std::string unit) {
-        ingredientList->insert(name, amount, unit);
-    }
+void Recipe::editIngredient(std::string name, double amount, std::string unit) {
+    ingredientList->edit(name, amount, unit);
+}
 
-    void editIngredient(std::string name, double amount, std::string unit) {
-        ingredientList->edit(name, amount, unit);
-    }
+void Recipe::removeIngredient(std::string name) {
+    ingredientList->remove(name);
+}
 
-    void removeIngredient(std::string name) {
-        ingredientList->remove(name);
-    }
-
-};
-
-struct RecipeList {
-    private:
-        Recipe* recipeList[CAPACITY];
-        int size;
-        int count;
-
-    public:
-        RecipeList();
-        ~RecipeList();
-        int HashFunction(std::string str);
-        bool keyExists(std::string recipeName);
-        bool insert(std::string recipeName);
-        bool remove(std::string recipeName);
-        bool edit(std::string oldName, std::string newName);
-        void printRecipeList();
-};
-
+//RecipeList functions
 RecipeList::RecipeList() {
     this->size = 100;
     count = 0;

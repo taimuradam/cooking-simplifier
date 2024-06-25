@@ -1,41 +1,15 @@
-#define CAPACITY 15 // Size of the HashTable.
 #include <iostream>
 #include <iomanip>
 #include <string>
+#include "IngredientHashTable.h"
 
-struct Ingredient {
-
-    std::string name;
-    double amount;
-    std::string unit;
-    struct Ingredient* next;
-
-    Ingredient(std::string name, double amount, std::string unit) {
-        this->name = name;
-        this->amount = amount;
-        this->unit = unit;
-        this->next = nullptr;
-    }
-};
-
-struct IngredientList
-{
-    private:
-        //create a list which is basically an unordered array
-        Ingredient* ingredientList[CAPACITY];
-        int size;
-        int count;
-
-    public:
-        IngredientList();
-        ~IngredientList();
-        int HashFunction(std::string str);
-        bool keyExists(std::string ingredientName);  //index if exists, -1 if not
-        bool insert(std::string name, double amount, std::string unit); //true if success, false if not
-        bool remove(std::string name); //true if success, false if not
-        bool edit(std::string name, double amount, std::string unit);
-        void printIngredientList();
-};
+//constructor for ingredient struct
+Ingredient::Ingredient(std::string name, double amount, std::string unit) {
+    this->name = name;
+    this->amount = amount;
+    this->unit = unit;
+    this->next = nullptr;
+}
 
 IngredientList::IngredientList() {
     //constructor, initialize all variables
