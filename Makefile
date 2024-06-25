@@ -14,13 +14,13 @@ SRCDIR = source
 INCDIR = header
 
 # Source files
-SOURCES = $(SRCDIR)/IngredientHashTable.cpp $(SRCDIR)/RecipeList.cpp $(SRCDIR)/CookingSimplifier.cpp
+SOURCES = $(SRCDIR)/IngredientHashTable.cpp $(SRCDIR)/RecipeList.cpp $(SRCDIR)/CookingSimplifier.cpp $(SRCDIR)/util.cpp
 
 # Object files
 OBJECTS = $(SOURCES:.cpp=.o)
 
 # Header files
-HEADERS = $(INCDIR)/IngredientHashTable.h $(INCDIR)/RecipeList.h
+HEADERS = $(INCDIR)/IngredientHashTable.h $(INCDIR)/RecipeList.h $(INCDIR)/util.h
 
 # Default target
 all: $(TARGET)

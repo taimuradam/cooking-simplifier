@@ -26,7 +26,7 @@ struct IngredientList
     IngredientList();
     ~IngredientList();
     int HashFunction(std::string str);
-    bool keyExists(std::string ingredientName);  //index if exists, -1 if not
+    bool keyExists(std::string ingredientName);  //true if exists, false if not
     bool insert(std::string name, double amount, std::string unit); //true if success, false if not
     bool remove(std::string name); //true if success, false if not
     bool edit(std::string name, double amount, std::string unit);
