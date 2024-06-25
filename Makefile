@@ -7,14 +7,20 @@ CXXFLAGS = -std=c++98 -Wall -Wextra
 # Executable name
 TARGET = CookingSimplifier
 
+# Source files directory
+SRCDIR = source
+
+# Header files directory
+INCDIR = header
+
 # Source files
-SOURCES = IngredientHashTable.cpp RecipeList.cpp CookingSimplifier.cpp
+SOURCES = $(SRCDIR)/IngredientHashTable.cpp $(SRCDIR)/RecipeList.cpp $(SRCDIR)/CookingSimplifier.cpp
 
 # Object files
 OBJECTS = $(SOURCES:.cpp=.o)
 
 # Header files
-HEADERS = IngredientHashTable.h RecipeList.h
+HEADERS = $(INCDIR)/IngredientHashTable.h $(INCDIR)/RecipeList.h
 
 # Default target
 all: $(TARGET)
@@ -24,7 +30,7 @@ $(TARGET): $(OBJECTS)
 	$(CXX) $(CXXFLAGS) -o $(TARGET) $(OBJECTS)
 
 # Compile source files to object files
-%.o: %.cpp $(HEADERS)
+$(SRCDIR)/%.o: $(SRCDIR)/%.cpp $(HEADERS)
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
 # Clean up object files and executable

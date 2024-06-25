@@ -1,4 +1,4 @@
-#include "RecipeList.h"
+#include "../header/RecipeList.h"
 #include <iostream>
 
 //Recipe functions

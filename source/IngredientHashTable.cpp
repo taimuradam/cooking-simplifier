@@ -1,6 +1,6 @@
 #include <iostream>
 #include <iomanip>
-#include "IngredientHashTable.h"
+#include "../header/IngredientHashTable.h"
 
 //Ingredient functions
 Ingredient::Ingredient(std::string name, double amount, std::string unit) {
