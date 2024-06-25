@@ -18,6 +18,8 @@ int main() {
         std::cout << "1: insert, 2: edit, 3: remove, 4: print, -1: quit" << std::endl;
         std::cin >> input;
         std::cin.ignore(20, '\n');
+        std::cout << std::endl;
+
 
         if (input == 1) {
             //insert
@@ -34,7 +36,9 @@ int main() {
             ingredientName = capitalize(ingredientName);
             ingredientUnit = toLower(ingredientUnit);
 
-            ingredientList->insert(ingredientName, ingredientAmt, ingredientUnit);
+            if (ingredientList->insert(ingredientName, ingredientAmt, ingredientUnit)) {
+                std::cout << "\n" << ingredientName << " inserted into ingredients.\n" << std::endl;
+            }
         }
 
         else if (input == 2) {
@@ -54,10 +58,13 @@ int main() {
 
                 ingredientUnit = toLower(ingredientUnit);
                 ingredientList->edit(ingredientName, ingredientAmt, ingredientUnit);
+
+                std::cout << "\n" << ingredientName << " updated to " << ingredientAmt << " " << ingredientUnit << ".\n" << std::endl;
+
             }
             else {
-                std::cout << "\nIngredient \"" << ingredientName << "\" doesn't exist in recipe.\n";
-                std::cout << "Enter a valid ingredient name.\n\n";
+                std::cout << "\n" << ingredientName << " doesn't exist in recipe.\n";
+                std::cout << "Enter a valid ingredient name.\n" << std::endl;
             }
         }
 
@@ -70,19 +77,28 @@ int main() {
             ingredientName = capitalize(ingredientName);
 
             if (!ingredientList->remove(ingredientName)) {
-                std::cout << "\nIngredient \"" << ingredientName << "\" doesn't exist in recipe.\n";
-                std::cout << "Enter a valid ingredient name.\n\n";
+                std::cout << "\n" << ingredientName << " doesn't exist in recipe.\n";
+                std::cout << "Enter a valid ingredient name.\n" << std::endl;
+            }
+            else {
+                std::cout << "\n" << ingredientName << " deleted.\n" << std::endl;
             }
         }
 
         else if (input == 4) {
             //print
-            ingredientList->printIngredientList();
+            if (ingredientList->count != 0) {
+                ingredientList->printIngredientList();
+            }
+            else {
+                std::cout << "Ingredient list is empty.\n" << std::endl;
+            }
         }
 
     } while(input != -1);
 
-    ingredientList->printIngredientList();
+    if (ingredientList->count != 0) {
+        ingredientList->printIngredientList();
+    }
     ingredientList->~IngredientList();
-
 }

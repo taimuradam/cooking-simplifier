@@ -136,8 +136,6 @@ bool IngredientList::edit(std::string name, double amount, std::string unit) {
 
 void IngredientList::printIngredientList() {
 
-    std::cout << "\n";
-
     std::cout << std::left << std::setw(20) << "Ingredient Name"
               << std::setw(15) << "Amount"
               << std::setw(15) << "Unit" << std::endl;
@@ -154,6 +152,6 @@ void IngredientList::printIngredientList() {
         }
     }
 
-    std::cout << "\n";
+    std::cout << std::endl;
 
 }
