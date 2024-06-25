@@ -1,5 +1,10 @@
+#ifndef RECIPE_LIST_H
+#define RECIPE_LIST_H
+
+#include <iostream>
 #include "IngredientHashTable.h"
-#define CAPACITY 100
+
+#define CAPACITY1 100
 
 struct Recipe {
     std::string name;
@@ -14,7 +19,7 @@ struct Recipe {
 };
 
 struct RecipeList {
-    Recipe* recipeList[CAPACITY];
+    Recipe* recipeList[CAPACITY1];
     int size;
     int count;
 
@@ -27,3 +32,5 @@ struct RecipeList {
     bool edit(std::string oldName, std::string newName);
     void printRecipeList();
 };
+
+#endif

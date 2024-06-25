@@ -1,5 +1,9 @@
-#define CAPACITY 15 // Size of the HashTable.
+#ifndef INGREDIENT_HASHTABLE_H
+#define INGREDIENT_HASHTABLE_H
+
 #include <string>
+
+#define CAPACITY 15 // Size of the HashTable.
 
 struct Ingredient {
 
@@ -28,3 +32,5 @@ struct IngredientList
     bool edit(std::string name, double amount, std::string unit);
     void printIngredientList();
 };
+
+#endif

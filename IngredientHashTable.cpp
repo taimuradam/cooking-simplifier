@@ -1,10 +1,10 @@
 #include <iostream>
 #include <iomanip>
-#include <string>
 #include "IngredientHashTable.h"
 
-//constructor for ingredient struct
+//Ingredient functions
 Ingredient::Ingredient(std::string name, double amount, std::string unit) {
+    //constructor
     this->name = name;
     this->amount = amount;
     this->unit = unit;
@@ -20,6 +20,7 @@ IngredientList::IngredientList() {
     }
 }
 
+//IngredientList functions
 IngredientList::~IngredientList() {
     for (int i = 0; i < CAPACITY; ++i) {
         Ingredient* current = ingredientList[i];

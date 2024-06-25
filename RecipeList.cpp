@@ -1,6 +1,5 @@
-#include "IngredientHashTable.h"
 #include "RecipeList.h"
-#define CAPACITY 100
+#include <iostream>
 
 //Recipe functions
 Recipe::Recipe(std::string name) {
@@ -35,7 +34,7 @@ RecipeList::RecipeList() {
 }
 
 RecipeList::~RecipeList() {
-    for (int i = 0; i < CAPACITY; ++i) {
+    for (int i = 0; i < CAPACITY1; ++i) {
         Recipe* current = recipeList[i];
         while (current != nullptr) {
             Recipe* toDelete = current;
@@ -47,10 +46,11 @@ RecipeList::~RecipeList() {
 
 int RecipeList::HashFunction(std::string str) {
     int hash = 0;
-    for (char c : str) {
+    for (size_t i = 0; i < str.length(); ++i) {
+        char c = str[i];
         hash += c;
     }
-    return hash % CAPACITY;
+    return hash % CAPACITY1;
 }
 
 bool RecipeList::keyExists(std::string ingredientName) {
