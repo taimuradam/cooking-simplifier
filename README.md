@@ -39,6 +39,11 @@ The Cooking Simplifier program allows users to input the names of meals along wi
     make
     ```
 
+3. Clean up the .o files::
+    ```sh
+    make clean
+    ```
+
 ## Usage
 1. Run the program:
     ```sh
@@ -52,22 +57,26 @@ The Cooking Simplifier program allows users to input the names of meals along wi
 The project is organized as follows:
 
 - cooking-simplifier/
+  - CookingSimplifier.exe (generated during build)
   - README.md
   - LICENSE
   - Makefile
   - source/
     - main.cpp
-    - main.o (generated during build)
     - RecipeList.cpp
-    - RecipeList.o (generated during build)
     - util.cpp
-    - util.o (generated during build)
     - IngredientHashTable.cpp
+    - RecipeUtil.cpp
+    - RecipeUtil.o (generated during build)
     - IngredientHashTable.o (generated during build)
+    - util.o (generated during build)
+    - RecipeList.o (generated during build)
+    - main.o (generated during build)
   - header/
     - RecipeList.h
     - util.h
     - IngredientHashTable.h
+    - RecipeUtil.h
 
 ## Contributing
 Contributions are welcome! Please fork the repository and submit a pull request with your changes. Ensure that your code adheres to the project’s coding standards and includes appropriate tests.

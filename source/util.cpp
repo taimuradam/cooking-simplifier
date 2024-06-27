@@ -1,4 +1,5 @@
 #include "../header/util.h"
+#include "../header/IngredientHashTable.h"
 
 std::string capitalize(std::string string) {
     //capitalize the first character of a string

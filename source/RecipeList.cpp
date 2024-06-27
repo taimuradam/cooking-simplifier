@@ -9,19 +9,23 @@ Recipe::Recipe(std::string name) {
 }
 
 Recipe::~Recipe() {
+    //destructor
     delete ingredientList;
 }
 
-void Recipe::addIngredient(std::string name, double amount, std::string unit) {
-    ingredientList->insert(name, amount, unit);
+bool Recipe::addIngredient(std::string name, double amount, std::string unit) {
+    //easy addIngredient for recipe
+    return ingredientList->insert(name, amount, unit);
 }
 
-void Recipe::editIngredient(std::string name, double amount, std::string unit) {
-    ingredientList->edit(name, amount, unit);
+bool Recipe::editIngredient(std::string name, double amount, std::string unit) {
+    //easy editIngredient for recipe
+    return ingredientList->edit(name, amount, unit);
 }
 
-void Recipe::removeIngredient(std::string name) {
-    ingredientList->remove(name);
+bool Recipe::removeIngredient(std::string name) {
+    //easy removeIngredient for recipe
+    return ingredientList->remove(name);
 }
 
 //RecipeList functions
@@ -34,6 +38,7 @@ RecipeList::RecipeList() {
 }
 
 RecipeList::~RecipeList() {
+    //destructor
     for (int i = 0; i < CAPACITY1; ++i) {
         Recipe* current = recipeList[i];
         while (current != nullptr) {
@@ -45,6 +50,8 @@ RecipeList::~RecipeList() {
 }
 
 int RecipeList::HashFunction(std::string str) {
+    //simple HashFunction
+    //(sum of ASCII of all letters) % capacity
     int hash = 0;
     for (size_t i = 0; i < str.length(); ++i) {
         char c = str[i];
@@ -54,6 +61,7 @@ int RecipeList::HashFunction(std::string str) {
 }
 
 bool RecipeList::keyExists(std::string ingredientName) {
+    //check if a recipe exists in recipeList
     int hashValue = HashFunction(ingredientName);
     Recipe* temp = recipeList[hashValue];
 
@@ -67,6 +75,7 @@ bool RecipeList::keyExists(std::string ingredientName) {
 }
 
 bool RecipeList::insert(std::string recipeName) {
+    //insert a recipe
     Recipe* newRecipe = new Recipe(recipeName);
 
     int hashValue = HashFunction(recipeName);
@@ -94,6 +103,7 @@ bool RecipeList::insert(std::string recipeName) {
 }
 
 bool RecipeList::remove(std::string recipeName) {
+    //remove a recipe
     bool exists = keyExists(recipeName);
     int hashValue = HashFunction(recipeName);
 
@@ -125,25 +135,49 @@ bool RecipeList::remove(std::string recipeName) {
 }
 
 bool RecipeList::edit(std::string oldName, std::string newName) {
-    bool exists = keyExists(oldName);
-    int hashValue = HashFunction(oldName);
-
-    if (exists == false) {
+    //edit a recipe's name from oldName to newName
+    if (!keyExists(oldName)) {
         //ingredient not in list
         return false;
     }
     else {
-        Recipe* temp = recipeList[hashValue];
+        Recipe* temp = recipeList[HashFunction(oldName)];
         while (temp != nullptr) {
             if (temp->name.compare(oldName) == 0) {
+
+                // Deep copy of the ingredient list from the old recipe
+                IngredientList* tempIngredients = new IngredientList(*(temp->ingredientList));
+
                 remove(oldName);
                 insert(newName);
+
+                Recipe* newRecipe = getRecipe(newName);
+                newRecipe->ingredientList = tempIngredients;
+                
                 return true;
             }
             temp = temp->next;
         }
         return false;
     }
+}
+
+Recipe* RecipeList::getRecipe(std::string recipeName) {
+    //returns the recipe if exists, nullptr if not
+    if (!keyExists(recipeName)) {
+        return nullptr;
+    }
+
+    Recipe* temp = recipeList[HashFunction(recipeName)];
+    while (temp != nullptr) {
+        //iterate through linked list at hashValue and return the recipe
+        if (temp->name.compare(recipeName) == 0) {
+            return temp;
+        }
+        temp = temp->next;
+    }
+
+    return nullptr;
 }
 
 void RecipeList::printRecipeList() {

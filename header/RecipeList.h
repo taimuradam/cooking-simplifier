@@ -13,9 +13,9 @@ struct Recipe {
 
     Recipe(std::string name);
     ~Recipe();
-    void addIngredient(std::string name, double amount, std::string unit);
-    void editIngredient(std::string name, double amount, std::string unit);
-    void removeIngredient(std::string name);
+    bool addIngredient(std::string name, double amount, std::string unit);
+    bool editIngredient(std::string name, double amount, std::string unit);
+    bool removeIngredient(std::string name);
 };
 
 struct RecipeList {
@@ -30,6 +30,7 @@ struct RecipeList {
     bool insert(std::string recipeName);
     bool remove(std::string recipeName);
     bool edit(std::string oldName, std::string newName);
+    Recipe* getRecipe(std::string recipeName);
     void printRecipeList();
 };
 

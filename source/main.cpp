@@ -1,104 +1,80 @@
 #include "../header/IngredientHashTable.h"
 #include "../header/RecipeList.h"
+#include "../header/RecipeUtil.h"
 #include "../header/util.h"
-
-#include <iostream>
-#include <iomanip>
-#include <string>
 
 int main() {
 
-    IngredientList* ingredientList = new IngredientList();
-    std::string ingredientName;
-    double ingredientAmt;
-    std::string ingredientUnit;
+    RecipeList* mainList = new RecipeList();
+    std::string recipeName;
     int input = 0;
+    int ingredientInput = 0;
 
     do {
-        std::cout << "1: insert, 2: edit, 3: remove, 4: print, -1: quit" << std::endl;
+        std::cout << "1: Insert a recipe, 2: Edit a recipe, 3: Remove a recipe, 4: Print the recipe list, -1: Quit" << std::endl;
         std::cin >> input;
         std::cin.ignore(20, '\n');
         std::cout << std::endl;
 
 
         if (input == 1) {
-            //insert
-            std::cout << "Enter an ingredient: ";
-            std::getline(std::cin, ingredientName);
+            //insert a recipe
+            std::cout << "Enter the recipe name: ";
+            std::getline(std::cin, recipeName);
+            capitalize(recipeName);
 
-            std::cout << "Enter the amount: ";
-            std::cin >> ingredientAmt;
-            std::cin.ignore(20, '\n');
-
-            std::cout << "Enter the unit of measurement: ";
-            std::getline(std::cin, ingredientUnit);
-
-            ingredientName = capitalize(ingredientName);
-            ingredientUnit = toLower(ingredientUnit);
-
-            if (ingredientList->insert(ingredientName, ingredientAmt, ingredientUnit)) {
-                std::cout << "\n" << ingredientName << " inserted into ingredients.\n" << std::endl;
+            if (mainList->keyExists(recipeName)) {
+                //check if recipe is already in the list
+                std::cout << "Recipe already exists in the list." << std::endl;
+                std::cout << "Choose a new recipe name.\n" << std::endl;
+                continue;
             }
+
+            mainList->insert(recipeName);
+            
+            std::cout << "\nRecipe " << recipeName << " inserted.\n" << std::endl;
+
+            Recipe * currRecipe = mainList->getRecipe(recipeName);
+            IngredientList* ingredientList = currRecipe->ingredientList;
+            
+            recipeUtil(ingredientInput, ingredientList);
+
+            ingredientInput = 0;
         }
 
         else if (input == 2) {
-            //edit
-            std::cout << "Enter an ingredient: ";
-            std::getline(std::cin, ingredientName);
-
-            ingredientName = capitalize(ingredientName);
-
-            if (ingredientList->keyExists(ingredientName)) {
-                std::cout << "Enter the amount: ";
-                std::cin >> ingredientAmt;
+            //edit a recipe
+            do {
+                std::cout << "What would you like to edit?" << std::endl;
+                std::cout << "1: Recipe name, 2: Edit ingredients in a recipe, 3: Print recipe list, -1: Go back" << std::endl;
+                std::cin >> ingredientInput;
                 std::cin.ignore(20, '\n');
 
-                std::cout << "Enter the unit of measurement: ";
-                std::getline(std::cin, ingredientUnit);
+                editRecipeUtil(ingredientInput, mainList, recipeName);
 
-                ingredientUnit = toLower(ingredientUnit);
-                ingredientList->edit(ingredientName, ingredientAmt, ingredientUnit);
+            } while (ingredientInput != -1);
 
-                std::cout << "\n" << ingredientName << " updated to " << ingredientAmt << " " << ingredientUnit << ".\n" << std::endl;
-
-            }
-            else {
-                std::cout << "\n" << ingredientName << " doesn't exist in recipe.\n";
-                std::cout << "Enter a valid ingredient name.\n" << std::endl;
-            }
+            ingredientInput = 0;
         }
 
         else if (input == 3) {
-            //delete
+            //remove a recipe
+            std::cout << "What recipe would you like to remove: " << std::endl;
+            std::getline(std::cin, recipeName);
+            capitalize(recipeName);
 
-            std::cout << "Enter an ingredient: ";
-            std::getline(std::cin, ingredientName);
-
-            ingredientName = capitalize(ingredientName);
-
-            if (!ingredientList->remove(ingredientName)) {
-                std::cout << "\n" << ingredientName << " doesn't exist in recipe.\n";
-                std::cout << "Enter a valid ingredient name.\n" << std::endl;
+            if (mainList->remove(recipeName)) {
+                std::cout << recipeName << " deleted.\n" << std::endl;
             }
             else {
-                std::cout << "\n" << ingredientName << " deleted.\n" << std::endl;
+                std::cout << "\n" << recipeName << "doesn't exist in the list.\n" << std::endl;
             }
         }
 
         else if (input == 4) {
-            //print
-            if (ingredientList->count != 0) {
-                ingredientList->printIngredientList();
-            }
-            else {
-                std::cout << "Ingredient list is empty.\n" << std::endl;
-            }
+            //print recipe list
+            mainList->printRecipeList();
         }
 
     } while(input != -1);
-
-    if (ingredientList->count != 0) {
-        ingredientList->printIngredientList();
-    }
-    ingredientList->~IngredientList();
 }

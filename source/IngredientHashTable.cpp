@@ -32,6 +32,29 @@ IngredientList::~IngredientList() {
     }
 }
 
+IngredientList::IngredientList(const IngredientList& other) {
+    //copy constructor
+    size = other.size;
+    count = other.count;
+
+    for (int i = 0; i < size; ++i) {
+        if (other.ingredientList[i] == nullptr) {
+            ingredientList[i] = nullptr;
+        } else {
+            // Copy the linked list of ingredients
+            ingredientList[i] = new Ingredient(*other.ingredientList[i]);
+            Ingredient* current = ingredientList[i];
+            Ingredient* otherCurrent = other.ingredientList[i]->next;
+
+            while (otherCurrent != nullptr) {
+                current->next = new Ingredient(*otherCurrent);
+                current = current->next;
+                otherCurrent = otherCurrent->next;
+            }
+        }
+    }
+}
+
 int IngredientList::HashFunction(std::string str) {
     int hash = 0;
     for (size_t i = 0; i < str.length(); ++i) {
